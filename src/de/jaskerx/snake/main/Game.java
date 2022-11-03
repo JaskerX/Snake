@@ -47,9 +47,9 @@ public class Game {
 		apple.setImage(ImageIO.read(getClass().getResource("/resources/apple.png")));
 		Rectangle snake = new Rectangle(30, 30);
 		snake.setColor(Color.GREEN);
-		snake.setPosX(new Random().nextInt(30) * 30);
-		snake.setPosY(new Random().nextInt(20) * 30);
-		snake.setNumAttributes(4);
+		snake.setPosX(210);
+		snake.setPosY(210);
+		snake.setNumAttributes(4, 0);
 		score = new Text(900, 100, Color.WHITE);
 		score.setPosX(0);
 		score.setPosY(50);
@@ -98,6 +98,32 @@ public class Game {
 						Entity first = engine.getRenderedStage().getEntities()[1][0];
 						Entity apple = engine.getRenderedStage().getEntities()[0][0];
 						
+						//direction change
+						if(engine.getRenderedStage().getEntities().length > 1) {
+							
+							for(int i = 0; i < engine.getRenderedStage().getEntities()[1].length; i++) {
+								Entity e = engine.getRenderedStage().getEntities()[1][i];
+								
+								for(int j = 0; j < directionChanges.size(); j++) {
+									
+									if(e.getPosX() == directionChanges.get(j).getX() && e.getPosY() == directionChanges.get(j).getY()) {
+										e.setNumAttribute(0, directionChanges.get(j).getDirection());
+										
+										if(i == engine.getRenderedStage().getEntities()[1].length - 1) {
+											try {
+												Thread.sleep(1);
+											} catch (InterruptedException e1) {
+												e1.printStackTrace();
+											}
+											directionChanges.remove(j);
+											dCs.remove(j);
+											engine.getRenderedStage().setEntities(2, Arrays.copyOf(dCs.toArray(), dCs.size(), Entity[].class));
+										}
+									}
+								}
+							}
+						}
+						
 						//apple
 						if(first.getPosX() == apple.getPosX() && first.getPosY() == apple.getPosY()) {
 							
@@ -125,41 +151,30 @@ public class Game {
 									break;
 							}
 							
-							snake.setNumAttributes(last.getNumAttributes()[0]);
+							snake.setNumAttributes(last.getNumAttributes()[0], snakeParts.size());
 							snakeParts.add(snake);
 							engine.getRenderedStage().setEntities(1, Arrays.copyOf(snakeParts.toArray(), snakeParts.size(), Entity[].class));
 							score.setText("Punkte: " + (snakeParts.size() - 1));
 						}
 						
+						//snake
+						// search -> first
+						int xSearch = first.getPosX() + first.getWidth() / 2;
+						int ySearch = first.getPosY() + first.getHeight() / 2;
+						for(int i = 0; i < snakeParts.size(); i++) {
+							// check -> snakeParts.get[i]
+							int xCheck = snakeParts.get(i).getPosX();
+							int yCheck = snakeParts.get(i).getPosY();
+							int xCheck2 = (int) (snakeParts.get(i).getPosX() + first.getWidth());
+							int yCheck2 = (int) (snakeParts.get(i).getPosY() + first.getHeight());
+							if((snakeParts.get(i).getNumAttributes()[1] != first.getNumAttributes()[1]) && (xCheck < xSearch && xSearch < xCheck2) && (yCheck < ySearch && ySearch < yCheck2)) {
+								stopGame();
+							}
+						}
+						
 						//border
 						if(first.getPosX() < 0 || first.getPosY() < 0 || first.getPosX() + first.getWidth() > 900 || first.getPosY() + first.getHeight() > 600) {
 							stopGame();
-						}
-						
-						//direction change
-						if(engine.getRenderedStage().getEntities().length > 1) {
-							
-							for(int i = 0; i < engine.getRenderedStage().getEntities()[1].length; i++) {
-								Entity e = engine.getRenderedStage().getEntities()[1][i];
-								
-								for(int j = 0; j < directionChanges.size(); j++) {
-									
-									if(e.getPosX() == directionChanges.get(j).getX() && e.getPosY() == directionChanges.get(j).getY()) {
-										e.setNumAttributes(directionChanges.get(j).getDirection());
-										
-										if(i == engine.getRenderedStage().getEntities()[1].length - 1) {
-											try {
-												Thread.sleep(1);
-											} catch (InterruptedException e1) {
-												e1.printStackTrace();
-											}
-											directionChanges.remove(j);
-											dCs.remove(j);
-											engine.getRenderedStage().setEntities(2, Arrays.copyOf(dCs.toArray(), dCs.size(), Entity[].class));
-										}
-									}
-								}
-							}
 						}
 						
 					}
@@ -212,11 +227,13 @@ public class Game {
 	}
 	
 	private void stopGame() {
-		int points = snakeParts.size() - 1;
-		engine.stop();
-		((Text) engine.getStages()[1].getEntities()[0][0]).setText("Das Spiel ist beendet! Du hast " + points + ((points == 1) ? " Punkt" : " Punkte") + " erreicht.");
-		loadData(points);
-		engine.render(1);
+		if(engine.getRenderedStage().equals(engine.getStages()[0])) {
+			engine.stop();
+			int points = snakeParts.size() - 1;
+			((Text) engine.getStages()[1].getEntities()[0][0]).setText("Das Spiel ist beendet! Du hast " + points + ((points == 1) ? " Punkt" : " Punkte") + " erreicht.");
+			loadData(points);
+			engine.render(1);
+		}
 	}
 	
 	private KeyListener getKeyListener() {
@@ -242,16 +259,16 @@ public class Game {
 				switch(event.getKeyChar()) {
 				
 					case 'w':
-						e.setNumAttributes(1);
+						e.setNumAttribute(0, 1);
 						break;
 					case 'a':
-						e.setNumAttributes(2);
+						e.setNumAttribute(0, 2);
 						break;
 					case 's':
-						e.setNumAttributes(3);
+						e.setNumAttribute(0, 3);
 						break;
 					case 'd':
-						e.setNumAttributes(4);
+						e.setNumAttribute(0, 4);
 						break;
 					
 				}
