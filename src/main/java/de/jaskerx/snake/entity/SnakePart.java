@@ -1,6 +1,7 @@
 package de.jaskerx.snake.entity;
 
 import de.jaskerx.snake.Direction;
+import de.jaskerx.snake.Snake;
 
 import java.awt.*;
 
@@ -25,8 +26,7 @@ public class SnakePart extends Entity {
 
     @Override
     public void draw(Graphics2D graphics2D) {
-        boolean debug = false;
-        if(!debug) {
+        if(!Snake.debug) {
             graphics2D.setColor(Color.GREEN);
         } else {
             if (this.width == 30 && this.height == 30) {
