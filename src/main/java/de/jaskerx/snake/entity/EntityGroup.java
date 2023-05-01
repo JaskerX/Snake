@@ -1,20 +1,16 @@
 package de.jaskerx.snake.entity;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 public class EntityGroup {
 
-    CopyOnWriteArrayList<Entity> entities;
-
-    public EntityGroup() {
-        this.entities = new CopyOnWriteArrayList<>();
-    }
+    List<Entity> entities;
 
     public EntityGroup(Entity... entities) {
-        this.entities = new CopyOnWriteArrayList<>(Arrays.asList(entities));
+        this.entities = new ArrayList<>(Arrays.asList(entities));
     }
 
     public void addEntity(Entity entity) {

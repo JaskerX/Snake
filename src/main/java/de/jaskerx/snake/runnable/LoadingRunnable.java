@@ -10,9 +10,11 @@ import java.awt.image.BufferedImage;
 
 public class LoadingRunnable implements Runnable {
 
+    private final String text;
     private final MainFrame mainFrame;
 
-    public LoadingRunnable(MainFrame mainFrame) {
+    public LoadingRunnable(String text, MainFrame mainFrame) {
+        this.text = text;
         this.mainFrame = mainFrame;
     }
 
@@ -24,7 +26,7 @@ public class LoadingRunnable implements Runnable {
         EntityManager entityManager = this.mainFrame.getEntityManager();
         // Infotext als Entity hinzufügen
         if(!entityManager.getEntityGroups().containsKey("info")) {
-            Text text = new Text(200, "Bitte warten", 40, this.mainFrame);
+            Text text = new Text(200, this.text, 40, this.mainFrame);
             entityManager.addEntity("info", text);
         }
         // Kreise als Entities hinzufügen

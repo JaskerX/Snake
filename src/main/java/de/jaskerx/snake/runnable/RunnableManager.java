@@ -28,7 +28,7 @@ public class RunnableManager {
             this.scheduledExecutorLoading.shutdownNow();
         }
         this.scheduledExecutorLoading = Executors.newSingleThreadScheduledExecutor();
-        this.scheduledExecutorLoading.scheduleAtFixedRate(new LoadingRunnable(this.mainFrame), 0, 10, TimeUnit.MILLISECONDS);
+        this.scheduledExecutorLoading.scheduleAtFixedRate(new LoadingRunnable("Statistiken werden geladen", this.mainFrame), 0, 10, TimeUnit.MILLISECONDS);
     }
 
     public void stopGameRunnable() {

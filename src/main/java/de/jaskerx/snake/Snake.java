@@ -12,11 +12,12 @@ public class Snake {
     private static RunnableManager runnableManager;
 
     public static void main(String[] args) {
-        // Argumente auslesen
-        for(String arg : args) {
-            if (arg.equalsIgnoreCase("debug")) {
+        System.out.println(System.getProperty("debug"));
+        if(System.getProperty("debug") != null) {
+            if(System.getProperty("debug").isEmpty()) {
                 debug = true;
-                break;
+            } else {
+                debug = Boolean.parseBoolean(System.getProperty("debug"));
             }
         }
         mainFrame = new MainFrame();
@@ -35,6 +36,7 @@ public class Snake {
         }
         mainFrame.addKeyListener(new SnakeKeyListener(snakeObject));
         mainFrame.setVisible(true);
+
         // Apfel und Punkteanzeige hinzufügen
         mainFrame.getEntityManager().getEntityGroups().clear();
         mainFrame.getEntityManager().replaceApple();

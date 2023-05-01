@@ -54,7 +54,7 @@ public class HighscoreRunnable implements Runnable {
                         preparedStatementAmount.setInt(1, resultSet.getInt("score"));
                         ResultSet resultSetAmount = preparedStatementAmount.executeQuery();
                         if(resultSetAmount.next()) {
-                            Text text = new Text(250 + i * 40, i + 1 + ":   " + resultSet.getInt("score") + (resultSet.getInt("score") == 1 ? " Punkt   (" : " Punkte   (") + resultSetAmount.getInt(1) + " mal)", 30, this.mainFrame);
+                            Text text = new Text(250 + i * 40, resultSet.getInt("score") + (resultSet.getInt("score") == 1 ? " Punkt   (" : " Punkte   (") + resultSetAmount.getInt(1) + " mal)", 30, this.mainFrame);
                             toAdd.add(text);
                             i++;
                         }

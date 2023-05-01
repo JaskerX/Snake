@@ -3,20 +3,24 @@ package de.jaskerx.snake;
 import de.jaskerx.snake.entity.SnakePart;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 public class SnakeObject {
 
     private final SnakePart front;
     private final SnakePart back;
     private final List<SnakePart> middleParts;
-    private final double moveValue = 2;
+    private double moveValue;
 
     public SnakeObject(double startX, double startY) {
         this.front = new SnakePart(startX, startY);
         this.back = new SnakePart(startX, startY, 0, 30);
-        this.middleParts = new CopyOnWriteArrayList<>();
+        this.middleParts = new ArrayList<>();
+        this.moveValue = Snake.debug ? 1 : 2;
+        if(System.getProperty("speed") != null) {
+            this.moveValue = Double.parseDouble(System.getProperty("speed"));
+        }
         this.addSection();
         this.addSection();
     }
