@@ -21,11 +21,13 @@ public class EntityManager {
         this.entityGroups.put(group, new EntityGroup(entity));
     }
 
+    // Apfel neu positionieren
     public void replaceApple() {
         Random random = new Random();
         this.entityGroups.put("apple", new EntityGroup(new Apple(random.nextInt(29) * 30, random.nextInt(19) * 30)));
     }
 
+    // Punktestand erhöhen
     public void increasePoints() {
         Text text = (Text) this.entityGroups.get("points").getFirst();
         text.setText(String.valueOf(Integer.parseInt(text.getText()) + 1));

@@ -77,16 +77,18 @@ public class HighscoreRunnable implements Runnable {
             e.printStackTrace();
         }
 
+        // Ladebildschirm beenden
         this.runnableManager.stopLoadingRunnable();
         entityManager.getEntityGroups().clear();
 
-        // add entities
+        // Entities hinzufügen
         toAdd.add(new Text(80, "Du hast verloren! Drücke [Enter], um neu zu starten!", 30, this.mainFrame));
         toAdd.add(new Text(200, "Top 5 erreichte Punkte:", 37, this.mainFrame));
         for(Entity entity : toAdd) {
             entityManager.addEntity("highscore", entity);
         }
 
+        // Neues Bild erstellen und als neues Bild setzen
         entityManager.drawEntities(graphics2D);
         this.mainFrame.setImage(bufferedImage);
     }

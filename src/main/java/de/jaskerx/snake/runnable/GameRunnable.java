@@ -39,20 +39,29 @@ public class GameRunnable implements Runnable {
 
         // Ist die Schlange außerhalb des Bildes?
         if(front.getX() < -15 || front.getX() >= this.mainFrame.WIDTH_PX || front.getY() < -15 || front.getY() >= this.mainFrame.HEIGHT_PX) {
-            this.runnableManager.stopGameRunnable();
-            int points = Integer.parseInt(((Text) this.mainFrame.getEntityManager().getEntityGroups().get("points").getFirst()).getText());
-            entityManager.getEntityGroups().clear();
-            this.runnableManager.startLoadingRunnable();
-            CompletableFuture.runAsync(new HighscoreRunnable(this.runnableManager, this.mainFrame, points));
+            endGame();
             return;
         }
 
+        // Schlange bewegen
         this.snakeObject.move();
         this.snakeObject.draw(graphics2D);
 
+        // Alle anderen Entities auf Bild malen
         entityManager.drawEntities(graphics2D);
 
+        // generiertes Bild als neues Bild setzen
         this.mainFrame.setImage(bufferedImage);
+    }
+
+    private void endGame() {
+        this.runnableManager.stopGameRunnable();
+        int points = Integer.parseInt(((Text) this.mainFrame.getEntityManager().getEntityGroups().get("points").getFirst()).getText());
+        this.mainFrame.getEntityManager().getEntityGroups().clear();
+        // zu Ladebildschirm wechsel
+        this.runnableManager.startLoadingRunnable();
+        // Daten aus der Datenbank laden
+        CompletableFuture.runAsync(new HighscoreRunnable(this.runnableManager, this.mainFrame, points));
     }
 
 }

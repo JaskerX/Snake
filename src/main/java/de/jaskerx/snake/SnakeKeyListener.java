@@ -1,24 +1,19 @@
 package de.jaskerx.snake;
 
-import de.jaskerx.snake.runnable.RunnableManager;
-
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class SnakeKeyListener implements KeyListener {
 
     private final SnakeObject snakeObject;
-    private final MainFrame mainFrame;
-    private final RunnableManager runnableManager;
 
-    public SnakeKeyListener(SnakeObject snakeObject, MainFrame mainFrame, RunnableManager runnableManager) {
+    public SnakeKeyListener(SnakeObject snakeObject) {
         this.snakeObject = snakeObject;
-        this.mainFrame = mainFrame;
-        this.runnableManager = runnableManager;
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
+        // Richtung ändern
         switch (e.getKeyChar()) {
             case 'w':
                 this.snakeObject.setDirection(Direction.UP);
@@ -33,8 +28,10 @@ public class SnakeKeyListener implements KeyListener {
                 this.snakeObject.setDirection(Direction.RIGHT);
                 break;
         }
+
+        // neues Spiel starten
         if(e.getKeyCode() == KeyEvent.VK_ENTER) {
-            this.mainFrame.startNewGame(this.runnableManager);
+            Snake.startNewGame();
         }
     }
 

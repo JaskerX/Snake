@@ -18,6 +18,7 @@ public abstract class Entity {
 
     public abstract void draw(Graphics2D graphics2D);
 
+    // Überprüfen, ob eine Kollision mit einer anderen Entity besteht
     public boolean checkCollision(Entity entity) {
         double xLeft = this.x;
         double xRight = this.x + this.width;

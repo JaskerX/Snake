@@ -1,11 +1,8 @@
 package de.jaskerx.snake;
 
 import de.jaskerx.snake.entity.EntityManager;
-import de.jaskerx.snake.entity.Text;
-import de.jaskerx.snake.runnable.RunnableManager;
 
 import javax.swing.*;
-import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 
 public class MainFrame extends JFrame {
@@ -27,6 +24,7 @@ public class MainFrame extends JFrame {
         this.pack();
     }
 
+    // Bild aktualisieren
     public void setImage(BufferedImage bufferedImage) {
         this.updateJLabel(bufferedImage);
         this.jLabel.repaint();
@@ -34,20 +32,6 @@ public class MainFrame extends JFrame {
 
     private void updateJLabel(BufferedImage bufferedImage) {
         this.jLabel.setIcon(new ImageIcon(bufferedImage));
-    }
-
-    public void startNewGame(RunnableManager runnableManager) {
-        SnakeObject snakeObject = new SnakeObject(300, 300);
-
-        for(KeyListener keyListener : this.getKeyListeners()) {
-            this.removeKeyListener(keyListener);
-        }
-        this.addKeyListener(new SnakeKeyListener(snakeObject, this, runnableManager));
-        this.setVisible(true);
-        this.getEntityManager().getEntityGroups().clear();
-        this.getEntityManager().replaceApple();
-        this.getEntityManager().addEntity("points", new Text(50, "0", 40, this));
-        runnableManager.startGameRunnable(snakeObject);
     }
 
     public EntityManager getEntityManager() {

@@ -24,6 +24,7 @@ public class SnakeObject {
     public void addSection() {
         SnakePart lastSnakePart = this.middleParts.size() == 0 ? this.front : getLastMiddlePart();
         SnakePart snakePart;
+        // Neues Teil abhängig vom letzten Teil erzeugen
         switch (lastSnakePart.getDirection()) {
             case RIGHT:
                 snakePart = new SnakePart(lastSnakePart.getX() - 30, lastSnakePart.getY(), lastSnakePart.getDirection());
@@ -39,12 +40,15 @@ public class SnakeObject {
                 break;
             default: return;
         }
+        // Neues Teil zur Schlange hinzufügen
         this.middleParts.add(snakePart);
         this.back.setX(this.back.getX() - 30);
     }
 
     public void setDirection(Direction direction) {
+        // Richtung des Anfangs und damit der Schlange ändern
         this.front.setDirection(direction);
+        // Anfang passend zum Raster verschieben
         if(direction.isHorizontal()) {
             double moveY;
             if(this.front.getY() % 30 <= 15) {
@@ -65,13 +69,16 @@ public class SnakeObject {
     }
 
     public void draw(Graphics2D graphics2D) {
+        // Alle Schlangenteile zeichnen
         this.front.draw(graphics2D);
         this.back.draw(graphics2D);
         this.middleParts.forEach(snakePart -> snakePart.draw(graphics2D));
     }
 
     public void move() {
+        // Falls das Feld am Anfang oder am Ende vollständig ausgefüllt ist, wird dieses durch ein ganzes Teil ersetzt und in die jeweilge Richtung verschoben
         if((this.front.getDirection().isHorizontal() && this.front.getWidth() == 30) || (!this.front.getDirection().isHorizontal() && this.front.getHeight() == 30)) {
+            // Anfang verschieben
             switch (this.front.getDirection()) {
                 case RIGHT: {
                     this.front.setX(this.front.getX() + 30);
@@ -95,6 +102,7 @@ public class SnakeObject {
                     break;
             }
 
+            // Ende verschieben
             switch (this.back.getDirection()) {
                 case RIGHT:
                     this.back.setX(this.back.getX() + 30);
@@ -112,11 +120,14 @@ public class SnakeObject {
             this.back.setWidth(30);
             this.back.setHeight(30);
 
+            // Neues Teil hinzufügen und dafür letztes löschen
             if(this.middleParts.size() > 0) {
                 SnakePart lastMiddlePart = getLastMiddlePart();
+                SnakePart newPart;
                 switch (this.front.getDirection()) {
                     case RIGHT:
-                        this.middleParts.add(0, new SnakePart(this.front.getX() - 30, this.front.getY(), this.front.getDirection()));
+                        newPart = new SnakePart(this.front.getX() - 30, this.front.getY(), this.front.getDirection());
+                        this.middleParts.add(0, newPart);
                         break;
                     case DOWN:
                         this.middleParts.add(0, new SnakePart(this.front.getX(), this.front.getY() - 30, this.front.getDirection()));
@@ -130,6 +141,8 @@ public class SnakeObject {
             }
         }
 
+        // Wird immer ausgeführt
+        // Anfang verbreitern, um Bewegungsanimation zu erzeugen
         switch (this.front.getDirection()) {
             case RIGHT:
                 this.front.setWidth(this.front.getWidth() + moveValue);
@@ -147,6 +160,7 @@ public class SnakeObject {
                 break;
         }
 
+        // Ende verkleinern, um Bewegungsanimation zu erzeugen
         SnakePart lastSnakePart = this.middleParts.size() == 0 ? this.front : getLastMiddlePart();
         switch (lastSnakePart.getDirection()) {
             case RIGHT:
@@ -180,7 +194,4 @@ public class SnakeObject {
         return front;
     }
 
-    public List<SnakePart> getMiddleParts() {
-        return middleParts;
-    }
 }
