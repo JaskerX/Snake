@@ -12,7 +12,6 @@ public class Snake {
     private static RunnableManager runnableManager;
 
     public static void main(String[] args) {
-        System.out.println(System.getProperty("debug"));
         if(System.getProperty("debug") != null) {
             if(System.getProperty("debug").isEmpty()) {
                 debug = true;
