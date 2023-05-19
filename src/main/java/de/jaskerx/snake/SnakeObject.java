@@ -56,7 +56,7 @@ public class SnakeObject {
         if(direction.isHorizontal()) {
             double moveY;
             if(this.front.getY() % 30 <= 15) {
-                moveY = (-1) * (this.front.getY() % 30);
+                moveY = -(this.front.getY() % 30);
             } else {
                 moveY = 30 - (this.front.getY() % 30);
             }
@@ -64,7 +64,7 @@ public class SnakeObject {
         } else {
             double moveX;
             if(this.front.getX() % 30 <= 15) {
-                moveX = (-1) * (this.front.getX() % 30);
+                moveX = -(this.front.getX() % 30);
             } else {
                 moveX = 30 - (this.front.getX() % 30);
             }
@@ -188,6 +188,17 @@ public class SnakeObject {
                 this.back.setX(lastSnakePart.getX());
                 break;
         }
+    }
+
+    public boolean checkSelfCollision() {
+        // für jedes Teil überprüfen, ob es sich an der gleichen Stelle wie der Anfang befindet
+        for(int i = 1; i < this.middleParts.size(); i++) {
+            if(this.front.getX() == this.middleParts.get(i).getX() && this.front.getY() == this.middleParts.get(i).getY()) {
+                // wenn Position gleich, gibt es eine Kollision
+                return true;
+            }
+        }
+        return false;
     }
 
     public SnakePart getLastMiddlePart() {

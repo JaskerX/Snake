@@ -43,6 +43,11 @@ public class GameRunnable implements Runnable {
             return;
         }
 
+        if(this.snakeObject.checkSelfCollision()) {
+            endGame();
+            return;
+        }
+
         // Schlange bewegen
         this.snakeObject.move();
         this.snakeObject.draw(graphics2D);
