@@ -1,13 +1,12 @@
 package de.jaskerx.snake.runnable;
 
 import de.jaskerx.snake.MainFrame;
-import de.jaskerx.snake.SnakeObject;
-import de.jaskerx.snake.entity.EntityManager;
-import de.jaskerx.snake.entity.SnakePart;
-import de.jaskerx.snake.entity.Text;
+import de.jaskerx.snake.render.SnakeObject;
+import de.jaskerx.snake.render.entity.Apple;
+import de.jaskerx.snake.render.RenderablesManager;
+import de.jaskerx.snake.render.entity.SnakePart;
+import de.jaskerx.snake.render.entity.Text;
 
-import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.util.concurrent.CompletableFuture;
 
 public class GameRunnable implements Runnable {
@@ -24,17 +23,14 @@ public class GameRunnable implements Runnable {
 
     @Override
     public void run() {
-        BufferedImage bufferedImage = new BufferedImage(this.mainFrame.WIDTH_PX, this.mainFrame.HEIGHT_PX, BufferedImage.TYPE_INT_RGB);
-        Graphics2D graphics2D = bufferedImage.createGraphics();
-
-        EntityManager entityManager = this.mainFrame.getEntityManager();
+        RenderablesManager renderablesManager = this.mainFrame.getRenderablesManager();
         SnakePart front = this.snakeObject.getFront();
 
         // Berührt der Anfang der Schlange den Apfel?
-        if(front.checkCollision(entityManager.getEntityGroups().get("apple").getFirst())) {
+        if(front.checkCollision((Apple) renderablesManager.getRenderablesGroups().get("apple").getFirst())) {
             this.snakeObject.addSection();
-            entityManager.replaceApple();
-            entityManager.increasePoints();
+            renderablesManager.replaceApple();
+            renderablesManager.increasePoints();
         }
 
         // Ist die Schlange außerhalb des Bildes?
@@ -50,20 +46,13 @@ public class GameRunnable implements Runnable {
 
         // Schlange bewegen
         this.snakeObject.move();
-        this.snakeObject.draw(graphics2D);
-
-        // Alle anderen Entities auf Bild malen
-        entityManager.drawEntities(graphics2D);
-
-        // generiertes Bild als neues Bild setzen
-        this.mainFrame.setImage(bufferedImage);
     }
 
     private void endGame() {
         this.runnableManager.stopGameRunnable();
-        int points = Integer.parseInt(((Text) this.mainFrame.getEntityManager().getEntityGroups().get("points").getFirst()).getText());
-        this.mainFrame.getEntityManager().getEntityGroups().clear();
-        // zu Ladebildschirm wechsel
+        int points = Integer.parseInt(((Text) this.mainFrame.getRenderablesManager().getRenderablesGroups().get("points").getFirst()).getText());
+        this.mainFrame.getRenderablesManager().getRenderablesGroups().clear();
+        // zu Ladebildschirm wechseln
         this.runnableManager.startLoadingRunnable();
         // Daten aus der Datenbank laden
         CompletableFuture.runAsync(new HighscoreRunnable(this.runnableManager, this.mainFrame, points));

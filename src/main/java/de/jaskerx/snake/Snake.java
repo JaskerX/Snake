@@ -1,6 +1,7 @@
 package de.jaskerx.snake;
 
-import de.jaskerx.snake.entity.Text;
+import de.jaskerx.snake.render.entity.Text;
+import de.jaskerx.snake.render.SnakeObject;
 import de.jaskerx.snake.runnable.RunnableManager;
 
 import java.awt.event.KeyListener;
@@ -27,6 +28,8 @@ public class Snake {
     }
 
     public static void startNewGame() {
+        mainFrame.getRenderer().stopRendering();
+
         // Neue Schlange erzeugen
         SnakeObject snakeObject = new SnakeObject(300, 300);
 
@@ -37,10 +40,12 @@ public class Snake {
         mainFrame.setVisible(true);
 
         // Apfel und Punkteanzeige hinzufügen
-        mainFrame.getEntityManager().getEntityGroups().clear();
-        mainFrame.getEntityManager().replaceApple();
-        mainFrame.getEntityManager().addEntity("points", new Text(50, "0", 40, mainFrame));
+        mainFrame.getRenderablesManager().getRenderablesGroups().clear();
+        mainFrame.getRenderablesManager().addRenderable("snake", snakeObject);
+        mainFrame.getRenderablesManager().replaceApple();
+        mainFrame.getRenderablesManager().addRenderable("points", new Text(50, "0", 40, mainFrame));
 
+        mainFrame.getRenderer().startRendering();
         runnableManager.startGameRunnable(snakeObject);
     }
 

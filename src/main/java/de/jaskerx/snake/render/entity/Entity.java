@@ -1,8 +1,10 @@
-package de.jaskerx.snake.entity;
+package de.jaskerx.snake.render.entity;
+
+import de.jaskerx.snake.render.Renderable;
 
 import java.awt.*;
 
-public abstract class Entity {
+public abstract class Entity implements Renderable {
 
     protected double x;
     protected double y;
@@ -16,7 +18,7 @@ public abstract class Entity {
         this.height = height;
     }
 
-    public abstract void draw(Graphics2D graphics2D);
+    public abstract void render(Graphics2D graphics2D);
 
     // Überprüfen, ob eine Kollision mit einer anderen Entity besteht
     public boolean checkCollision(Entity entity) {

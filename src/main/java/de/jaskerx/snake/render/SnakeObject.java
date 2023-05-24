@@ -1,12 +1,15 @@
-package de.jaskerx.snake;
+package de.jaskerx.snake.render;
 
-import de.jaskerx.snake.entity.SnakePart;
+import de.jaskerx.snake.Direction;
+import de.jaskerx.snake.Snake;
+import de.jaskerx.snake.render.entity.SnakePart;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-public class SnakeObject {
+public class SnakeObject implements Renderable {
 
     private final SnakePart front;
     private final SnakePart back;
@@ -16,7 +19,7 @@ public class SnakeObject {
     public SnakeObject(double startX, double startY) {
         this.front = new SnakePart(startX, startY);
         this.back = new SnakePart(startX, startY, 0, 30);
-        this.middleParts = new ArrayList<>();
+        this.middleParts = Collections.synchronizedList(new ArrayList<>());
         this.moveValue = Snake.debug ? 1 : 2;
         if(System.getProperty("speed") != null) {
             this.moveValue = Double.parseDouble(System.getProperty("speed"));
@@ -72,11 +75,11 @@ public class SnakeObject {
         }
     }
 
-    public void draw(Graphics2D graphics2D) {
+    public void render(Graphics2D graphics2D) {
         // Alle Schlangenteile zeichnen
-        this.front.draw(graphics2D);
-        this.back.draw(graphics2D);
-        this.middleParts.forEach(snakePart -> snakePart.draw(graphics2D));
+        this.front.render(graphics2D);
+        this.back.render(graphics2D);
+        this.middleParts.forEach(snakePart -> snakePart.render(graphics2D));
     }
 
     public void move() {

@@ -1,4 +1,4 @@
-package de.jaskerx.snake.entity;
+package de.jaskerx.snake.render.entity;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -18,7 +18,7 @@ public class Apple extends Entity {
     }
 
     @Override
-    public void draw(Graphics2D graphics2D) {
+    public void render(Graphics2D graphics2D) {
         graphics2D.drawImage(this.image, (int) this.x, (int) this.y, (int) this.width, (int) this.height, null);
     }
 

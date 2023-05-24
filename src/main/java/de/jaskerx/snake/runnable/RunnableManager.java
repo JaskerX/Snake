@@ -1,7 +1,7 @@
 package de.jaskerx.snake.runnable;
 
 import de.jaskerx.snake.MainFrame;
-import de.jaskerx.snake.SnakeObject;
+import de.jaskerx.snake.render.SnakeObject;
 
 import java.util.concurrent.*;
 

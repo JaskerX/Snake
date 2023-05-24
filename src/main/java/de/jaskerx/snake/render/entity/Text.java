@@ -1,4 +1,4 @@
-package de.jaskerx.snake.entity;
+package de.jaskerx.snake.render.entity;
 
 import de.jaskerx.snake.MainFrame;
 
@@ -18,7 +18,7 @@ public class Text extends Entity {
     }
 
     @Override
-    public void draw(Graphics2D graphics2D) {
+    public void render(Graphics2D graphics2D) {
         graphics2D.setColor(Color.WHITE);
         graphics2D.setFont(new Font(null, Font.PLAIN, this.fontSize));
         graphics2D.drawString(this.text, (this.mainFrame.getWidth() - graphics2D.getFontMetrics().stringWidth(this.text)) / 2, (int) this.y);

@@ -1,5 +1,7 @@
 package de.jaskerx.snake;
 
+import de.jaskerx.snake.render.SnakeObject;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 

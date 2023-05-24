@@ -1,4 +1,4 @@
-package de.jaskerx.snake.entity;
+package de.jaskerx.snake.render.entity;
 
 import java.awt.*;
 
@@ -23,7 +23,7 @@ public class Circle extends Entity {
     }
 
     @Override
-    public void draw(Graphics2D graphics2D) {
+    public void render(Graphics2D graphics2D) {
         this.color = new Color(this.color.getRed(), this.color.getGreen(), this.color.getBlue(), this.opacity);
         graphics2D.setColor(this.color);
         graphics2D.fillOval((int) this.x, (int) this.y, (int) this.width, (int) this.height);

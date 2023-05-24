@@ -1,12 +1,10 @@
 package de.jaskerx.snake.runnable;
 
 import de.jaskerx.snake.MainFrame;
-import de.jaskerx.snake.entity.Entity;
-import de.jaskerx.snake.entity.EntityManager;
-import de.jaskerx.snake.entity.Text;
+import de.jaskerx.snake.render.entity.Entity;
+import de.jaskerx.snake.render.RenderablesManager;
+import de.jaskerx.snake.render.entity.Text;
 
-import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,9 +23,7 @@ public class HighscoreRunnable implements Runnable {
 
     @Override
     public void run() {
-        BufferedImage bufferedImage = new BufferedImage(this.mainFrame.WIDTH_PX, this.mainFrame.HEIGHT_PX, BufferedImage.TYPE_INT_RGB);
-        Graphics2D graphics2D = bufferedImage.createGraphics();
-        EntityManager entityManager = this.mainFrame.getEntityManager();
+        RenderablesManager renderablesManager = this.mainFrame.getRenderablesManager();
 
         // Highscore-Daten laden
         List<Entity> toAdd = new ArrayList<>();
@@ -79,18 +75,14 @@ public class HighscoreRunnable implements Runnable {
 
         // Ladebildschirm beenden
         this.runnableManager.stopLoadingRunnable();
-        entityManager.getEntityGroups().clear();
+        renderablesManager.getRenderablesGroups().clear();
 
         // Entities hinzufügen
         toAdd.add(new Text(80, "Du hast verloren! Drücke [Enter], um neu zu starten!", 30, this.mainFrame));
         toAdd.add(new Text(200, "Top 5 erreichte Punkte:", 37, this.mainFrame));
         for(Entity entity : toAdd) {
-            entityManager.addEntity("highscore", entity);
+            renderablesManager.addRenderable("highscore", entity);
         }
-
-        // Neues Bild erstellen und als neues Bild setzen
-        entityManager.drawEntities(graphics2D);
-        this.mainFrame.setImage(bufferedImage);
     }
 
 }

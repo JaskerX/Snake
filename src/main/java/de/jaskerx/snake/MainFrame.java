@@ -1,6 +1,7 @@
 package de.jaskerx.snake;
 
-import de.jaskerx.snake.entity.EntityManager;
+import de.jaskerx.snake.render.RenderablesManager;
+import de.jaskerx.snake.render.Renderer;
 
 import javax.swing.*;
 import java.awt.image.BufferedImage;
@@ -10,12 +11,14 @@ public class MainFrame extends JFrame {
     private final JLabel jLabel;
     public final int WIDTH_PX = 900;
     public final int HEIGHT_PX = 600;
-    private final EntityManager entityManager;
+    private final RenderablesManager renderablesManager;
+    private final de.jaskerx.snake.render.Renderer renderer;
 
     public MainFrame() {
         super();
         this.jLabel = new JLabel();
-        this.entityManager = new EntityManager();
+        this.renderablesManager = new RenderablesManager();
+        this.renderer = new de.jaskerx.snake.render.Renderer(this);
         this.setTitle("Snake");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
@@ -34,8 +37,12 @@ public class MainFrame extends JFrame {
         this.jLabel.setIcon(new ImageIcon(bufferedImage));
     }
 
-    public EntityManager getEntityManager() {
-        return entityManager;
+    public RenderablesManager getRenderablesManager() {
+        return renderablesManager;
+    }
+
+    public Renderer getRenderer() {
+        return renderer;
     }
 
 }

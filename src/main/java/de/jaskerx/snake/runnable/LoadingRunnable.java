@@ -1,12 +1,11 @@
 package de.jaskerx.snake.runnable;
 
 import de.jaskerx.snake.MainFrame;
-import de.jaskerx.snake.entity.Circle;
-import de.jaskerx.snake.entity.EntityManager;
-import de.jaskerx.snake.entity.Text;
+import de.jaskerx.snake.render.entity.Circle;
+import de.jaskerx.snake.render.RenderablesManager;
+import de.jaskerx.snake.render.entity.Text;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 
 public class LoadingRunnable implements Runnable {
 
@@ -20,34 +19,27 @@ public class LoadingRunnable implements Runnable {
 
     @Override
     public void run() {
-        BufferedImage bufferedImage = new BufferedImage(this.mainFrame.WIDTH_PX, this.mainFrame.HEIGHT_PX, BufferedImage.TYPE_INT_RGB);
-        Graphics2D graphics2D = bufferedImage.createGraphics();
-
-        EntityManager entityManager = this.mainFrame.getEntityManager();
-        // Infotext als Entity hinzufügen
-        if(!entityManager.getEntityGroups().containsKey("info")) {
+        RenderablesManager renderablesManager = this.mainFrame.getRenderablesManager();
+        // Infotext hinzufügen
+        if(!renderablesManager.getRenderablesGroups().containsKey("info")) {
             Text text = new Text(200, this.text, 40, this.mainFrame);
-            entityManager.addEntity("info", text);
+            renderablesManager.addRenderable("info", text);
         }
-        // Kreise als Entities hinzufügen
-        if(!entityManager.getEntityGroups().containsKey("progress")) {
+        // Kreise hinzufügen
+        if(!renderablesManager.getRenderablesGroups().containsKey("progress")) {
             Circle circle1 = new Circle(390, 350, 15, Color.WHITE, 255, Circle.AnimationMode.REMOVE);
             Circle circle2 = new Circle(440, 350, 15, Color.WHITE, 205, Circle.AnimationMode.ADD);
             Circle circle3 = new Circle(490, 350, 15, Color.WHITE, 155, Circle.AnimationMode.ADD);
-            entityManager.addEntity("progress", circle1);
-            entityManager.addEntity("progress", circle2);
-            entityManager.addEntity("progress", circle3);
+            renderablesManager.addRenderable("progress", circle1);
+            renderablesManager.addRenderable("progress", circle2);
+            renderablesManager.addRenderable("progress", circle3);
         }
 
         // Animation der Kreise (verblassen)
-        entityManager.getEntityGroups().get("progress").getEntities().forEach(entity -> {
+        renderablesManager.getRenderablesGroups().get("progress").getRenderables().forEach(entity -> {
             Circle circle = (Circle) entity;
             circle.changeOpacity();
         });
-
-        // Neues Bild als Bild setzen
-        entityManager.drawEntities(graphics2D);
-        this.mainFrame.setImage(bufferedImage);
     }
 
 }
