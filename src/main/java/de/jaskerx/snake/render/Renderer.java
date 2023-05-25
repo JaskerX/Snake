@@ -23,7 +23,7 @@ public class Renderer {
 
     public void startRendering() {
         this.render = true;
-        long maxMillisBeforeNextImage = 5;
+        final long maxMillisBeforeNextImage = 5;
 
         new Thread(() -> {
             while(this.render) {
