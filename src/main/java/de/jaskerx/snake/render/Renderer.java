@@ -42,7 +42,7 @@ public class Renderer {
 
                 long millisBeforeNextImage = maxMillisBeforeNextImage;
                 long difference = ChronoUnit.MILLIS.between(localDateTimeNow, localDateTimeBefore.plus(maxMillisBeforeNextImage, ChronoUnit.MILLIS));
-                if(difference > 0) {
+                if(difference < 0) {
                     millisBeforeNextImage = maxMillisBeforeNextImage - difference;
                 }
 

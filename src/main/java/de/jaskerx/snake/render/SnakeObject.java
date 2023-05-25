@@ -192,8 +192,7 @@ public class SnakeObject implements Renderable {
     public boolean checkSelfCollision() {
         // für jedes Teil überprüfen, ob es sich an der gleichen Stelle wie der Anfang befindet
         for(int i = 1; i < this.middleParts.size(); i++) {
-            if(this.front.getX() == this.middleParts.get(i).getX() && this.front.getY() == this.middleParts.get(i).getY()) {
-                // wenn Position gleich, gibt es eine Kollision
+            if(this.front.checkCollision(this.middleParts.get(i))) {
                 return true;
             }
         }
