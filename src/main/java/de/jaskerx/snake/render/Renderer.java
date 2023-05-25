@@ -29,17 +29,18 @@ public class Renderer {
             while(this.render) {
                 LocalDateTime localDateTimeBefore = LocalDateTime.now();
 
+                RenderablesManager renderablesManager = this.mainFrame.getRenderablesManager();
                 // Wenn zu rendernde Objekte die selben sind wie beim letzten Bild, wird das Bild nicht aktualisiert
-                if(this.lastRendered == null || !this.lastRendered.values().equals(this.mainFrame.getRenderablesManager().getRenderablesGroups().values())) {
+                if(this.lastRendered == null || !this.lastRendered.values().equals(renderablesManager.getRenderablesGroups().values())) {
                     BufferedImage bufferedImage = new BufferedImage(this.mainFrame.WIDTH_PX, this.mainFrame.HEIGHT_PX, BufferedImage.TYPE_INT_RGB);
                     Graphics2D graphics2D = bufferedImage.createGraphics();
-                    this.mainFrame.getRenderablesManager().getRenderablesGroups().forEach((name, renderablesGroup) -> {
+                    renderablesManager.getRenderablesGroups().forEach((name, renderablesGroup) -> {
                         renderablesGroup.getRenderables().forEach(renderable -> renderable.render(graphics2D));
                     });
                     // Bild aktualisieren
                     this.mainFrame.setImage(bufferedImage);
                     // zuletzt gerenderte Objekte abspeichern
-                    this.lastRendered = Collections.synchronizedMap(new HashMap<>(this.mainFrame.getRenderablesManager().getRenderablesGroups()));
+                    this.lastRendered = Collections.synchronizedMap(new HashMap<>(renderablesManager.getRenderablesGroups()));
                 }
                 LocalDateTime localDateTimeNow = LocalDateTime.now();
 
