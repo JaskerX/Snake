@@ -38,7 +38,7 @@ public class Renderer {
                     });
                     // Bild aktualisieren
                     this.mainFrame.setImage(bufferedImage);
-                    // zuletzt gerenderte Obbjecte abspeichern
+                    // zuletzt gerenderte Objekte abspeichern
                     this.lastRendered = Collections.synchronizedMap(new HashMap<>(this.mainFrame.getRenderablesManager().getRenderablesGroups()));
                 }
                 LocalDateTime localDateTimeNow = LocalDateTime.now();
