@@ -1,7 +1,6 @@
 package de.jaskerx.snake.render;
 
 import de.jaskerx.snake.Direction;
-import de.jaskerx.snake.Snake;
 import de.jaskerx.snake.render.entity.SnakePart;
 
 import java.awt.*;
@@ -14,16 +13,11 @@ public class SnakeObject implements Renderable {
     private final SnakePart front;
     private final SnakePart back;
     private final List<SnakePart> middleParts;
-    private double moveValue;
 
     public SnakeObject(double startX, double startY) {
         this.front = new SnakePart(startX, startY);
         this.back = new SnakePart(startX, startY, 0, 30);
         this.middleParts = Collections.synchronizedList(new ArrayList<>());
-        this.moveValue = Snake.debug ? 1 : 2;
-        if(System.getProperty("speed") != null) {
-            this.moveValue = Double.parseDouble(System.getProperty("speed"));
-        }
         this.addSection();
         this.addSection();
     }
@@ -83,6 +77,7 @@ public class SnakeObject implements Renderable {
     }
 
     public void move() {
+        final double moveValue = 1;
         // Falls das Feld am Anfang oder am Ende vollständig ausgefüllt ist, wird dieses durch ein ganzes Teil ersetzt und in die jeweilge Richtung verschoben
         if((this.front.getDirection().isHorizontal() && this.front.getWidth() == 30) || (!this.front.getDirection().isHorizontal() && this.front.getHeight() == 30)) {
             // Anfang verschieben

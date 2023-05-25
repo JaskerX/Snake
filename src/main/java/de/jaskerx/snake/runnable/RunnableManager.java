@@ -1,6 +1,7 @@
 package de.jaskerx.snake.runnable;
 
 import de.jaskerx.snake.MainFrame;
+import de.jaskerx.snake.Snake;
 import de.jaskerx.snake.render.SnakeObject;
 
 import java.util.concurrent.*;
@@ -20,7 +21,12 @@ public class RunnableManager {
             this.scheduledExecutorGame.shutdownNow();
         }
         this.scheduledExecutorGame = Executors.newSingleThreadScheduledExecutor();
-        this.scheduledExecutorGame.scheduleAtFixedRate(new GameRunnable(this.mainFrame, snakeObject, this), 0, 15, TimeUnit.MILLISECONDS);
+        long periodDefault = 7;
+        long period = (long) (Snake.debug ? (periodDefault / 0.5) : periodDefault);
+        if(System.getProperty("speed") != null) {
+            period = (long) (periodDefault / Double.parseDouble(System.getProperty("speed")));
+        }
+        this.scheduledExecutorGame.scheduleAtFixedRate(new GameRunnable(this.mainFrame, snakeObject, this), 0, period, TimeUnit.MILLISECONDS);
     }
 
     public void startLoadingRunnable() {
