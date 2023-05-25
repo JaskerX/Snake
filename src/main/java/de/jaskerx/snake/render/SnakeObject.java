@@ -69,6 +69,7 @@ public class SnakeObject implements Renderable {
         }
     }
 
+    @Override
     public void render(Graphics2D graphics2D) {
         // Alle Schlangenteile zeichnen
         this.front.render(graphics2D);
