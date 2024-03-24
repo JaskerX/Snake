@@ -26,7 +26,7 @@ public class SnakePart extends Entity {
 
     @Override
     public void render(Graphics2D graphics2D) {
-        if(!Snake.debug) {
+        if(!Snake.isDebug()) {
             graphics2D.setColor(Color.GREEN);
         } else {
             if (this.width == 30 && this.height == 30) {

@@ -8,7 +8,7 @@ import java.awt.event.KeyListener;
 
 public class Snake {
 
-    public static boolean debug = false;
+    private static boolean debug = false;
     private static MainFrame mainFrame;
     private static RunnableManager runnableManager;
 
@@ -47,6 +47,10 @@ public class Snake {
 
         mainFrame.getRenderer().startRendering();
         runnableManager.startGameRunnable(snakeObject);
+    }
+
+    public static boolean isDebug() {
+        return debug;
     }
 
 }

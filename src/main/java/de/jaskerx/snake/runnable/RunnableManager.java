@@ -22,7 +22,7 @@ public class RunnableManager {
         }
         this.scheduledExecutorGame = Executors.newSingleThreadScheduledExecutor();
         long periodDefault = 7;
-        long period = (long) (Snake.debug ? (periodDefault / 0.5) : periodDefault);
+        long period = (long) (Snake.isDebug() ? (periodDefault / 0.5) : periodDefault);
         if(System.getProperty("speed") != null) {
             period = (long) (periodDefault / Double.parseDouble(System.getProperty("speed")));
         }
